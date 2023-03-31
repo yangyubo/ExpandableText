@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		81611DAF29AA6D7C00E11240 /* ExpandableText in Frameworks */ = {isa = PBXBuildFile; productRef = 81611DAE29AA6D7C00E11240 /* ExpandableText */; };
+		2F487D2A29D66FD5008BA990 /* ExpandableText in Frameworks */ = {isa = PBXBuildFile; productRef = 2F487D2929D66FD5008BA990 /* ExpandableText */; };
 		816E11FA29AA525C0006F0B1 /* ExpandableTextExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E11F929AA525C0006F0B1 /* ExpandableTextExampleApp.swift */; };
 		816E11FC29AA525C0006F0B1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E11FB29AA525C0006F0B1 /* ContentView.swift */; };
 		816E11FE29AA525D0006F0B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 816E11FD29AA525D0006F0B1 /* Assets.xcassets */; };
@@ -15,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F487D2829D66FC2008BA990 /* ExpandableText */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ExpandableText; path = ..; sourceTree = "<group>"; };
 		816E11F629AA525C0006F0B1 /* ExpandableTextExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpandableTextExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		816E11F929AA525C0006F0B1 /* ExpandableTextExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTextExampleApp.swift; sourceTree = "<group>"; };
 		816E11FB29AA525C0006F0B1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -27,13 +28,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81611DAF29AA6D7C00E11240 /* ExpandableText in Frameworks */,
+				2F487D2A29D66FD5008BA990 /* ExpandableText in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F487D2729D66FC2008BA990 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				2F487D2829D66FC2008BA990 /* ExpandableText */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		81189B9D29AA554F003AEFC0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -44,6 +53,7 @@
 		816E11ED29AA525B0006F0B1 = {
 			isa = PBXGroup;
 			children = (
+				2F487D2729D66FC2008BA990 /* Packages */,
 				816E11F829AA525C0006F0B1 /* ExpandableTextExample */,
 				816E11F729AA525C0006F0B1 /* Products */,
 				81189B9D29AA554F003AEFC0 /* Frameworks */,
@@ -94,7 +104,7 @@
 			);
 			name = ExpandableTextExample;
 			packageProductDependencies = (
-				81611DAE29AA6D7C00E11240 /* ExpandableText */,
+				2F487D2929D66FD5008BA990 /* ExpandableText */,
 			);
 			productName = ExpandableTextExample;
 			productReference = 816E11F629AA525C0006F0B1 /* ExpandableTextExample.app */;
@@ -125,7 +135,6 @@
 			);
 			mainGroup = 816E11ED29AA525B0006F0B1;
 			packageReferences = (
-				81611DAD29AA6D7C00E11240 /* XCRemoteSwiftPackageReference "ExpandableText" */,
 			);
 			productRefGroup = 816E11F729AA525C0006F0B1 /* Products */;
 			projectDirPath = "";
@@ -356,21 +365,9 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		81611DAD29AA6D7C00E11240 /* XCRemoteSwiftPackageReference "ExpandableText" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/n3d1117/ExpandableText.git";
-			requirement = {
-				kind = exactVersion;
-				version = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		81611DAE29AA6D7C00E11240 /* ExpandableText */ = {
+		2F487D2929D66FD5008BA990 /* ExpandableText */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81611DAD29AA6D7C00E11240 /* XCRemoteSwiftPackageReference "ExpandableText" */;
 			productName = ExpandableText;
 		};
 /* End XCSwiftPackageProductDependency section */
