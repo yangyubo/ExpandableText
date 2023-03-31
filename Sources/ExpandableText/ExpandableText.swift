@@ -44,13 +44,21 @@ public struct ExpandableText: View {
     internal var expandAnimation: Animation = .default
     internal var trimMultipleNewlinesWhenTruncated: Bool = true
     
+    private let attributedText: AttributedString?
+    
     /**
      Initializes a new `ExpandableText` instance with the specified text string, trimmed of any leading or trailing whitespace and newline characters.
      - Parameter text: The initial text string to display in the `ExpandableText` view.
      - Returns: A new `ExpandableText` instance with the specified text string and trimming applied.
      */
-    public init(_ text: String) {
-        self.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    public init(_ content: String) {
+        attributedText = nil
+        text = content.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    public init(_ attributedContent: AttributedString) {
+        attributedText = attributedContent
+        text = String(attributedContent.characters)
     }
     
     public var body: some View {
@@ -96,22 +104,28 @@ public struct ExpandableText: View {
             }))
     }
     
+    @ViewBuilder
     private var content: some View {
-        Text(.init(
-            trimMultipleNewlinesWhenTruncated
-                ? (shouldShowMoreButton ? textTrimmingDoubleNewlines : text)
-                : text
-        ))
-        .font(font)
-        .foregroundColor(color)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        if let attributedText = attributedText {
+            Text(attributedText)
+                .font(font)
+                .foregroundColor(color)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        } else {
+            let textTrimmingDoubleNewlines = text.replacingOccurrences(of: #"\n\s*\n"#, with: "\n", options: .regularExpression)
+            
+            Text(trimMultipleNewlinesWhenTruncated
+                    ? (shouldShowMoreButton ? textTrimmingDoubleNewlines : text)
+                    : text
+            )
+            .font(font)
+            .foregroundColor(color)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
     }
 
     private var shouldShowMoreButton: Bool {
         !isExpanded && isTruncated
     }
-    
-    private var textTrimmingDoubleNewlines: String {
-        text.replacingOccurrences(of: #"\n\s*\n"#, with: "\n", options: .regularExpression)
-    }
+
 }
