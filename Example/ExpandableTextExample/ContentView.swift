@@ -18,16 +18,22 @@ struct ContentView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 ExpandableText {
+                    Text("read more")
+                } content: {
                     Text(loremIpsum)
                 }
                 .border(.red)
                 
                 ExpandableText {
+                    Text("more")
+                } content: {
                     Text(try! AttributedString(markdown: loremIpsumMarkdown))
                 }
                 .border(.red)
                 
                 ExpandableText {
+                    Text("more")
+                } content: {
                     Text(loremIpsum)
                 }
                 .border(.red)
@@ -35,12 +41,13 @@ struct ContentView: View {
                 .font(.system(.footnote, design: .rounded))
                 
                 ExpandableText {
+                    Text("read more")
+                        .foregroundColor(.red)
+                        .font(.system(.largeTitle, design: .rounded).bold())
+                } content: {
                     Text(loremIpsum)
                 }
                 .lineLimit(4)
-                .moreButtonText("read more")
-                .moreButtonColor(.red)
-                .moreButtonFont(.system(.largeTitle, design: .rounded).bold())
                 .expandAnimation(.easeInOut(duration: 2))
                 .border(.red)
                 .font(.system(.footnote, design: .rounded))
@@ -61,6 +68,9 @@ struct ContentView_Previews: PreviewProvider {
                 Text("In section")
             } footer: {
                 ExpandableText {
+                    Text("more")
+                        .font(.footnote)
+                } content: {
                     Text(try! AttributedString(markdown: loremIpsumMarkdown))
                 }
             }

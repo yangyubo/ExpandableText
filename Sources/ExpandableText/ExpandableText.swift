@@ -26,7 +26,7 @@ ExpandableText {
 .expandAnimation(.default)
  ```
 */
-public struct ExpandableText<Content: View>: View {
+public struct ExpandableText<Label: View, Content: View>: View {
 
     @State private var isExpanded: Bool = false
     @State private var isTruncated: Bool = false
@@ -36,11 +36,9 @@ public struct ExpandableText<Content: View>: View {
     @State private var moreTextSize: CGSize = .zero
     
     internal var lineLimit: Int = 3
-    internal var moreButtonText: String = "more"
-    internal var moreButtonFont: Font?
-    internal var moreButtonColor: Color = .accentColor
     internal var expandAnimation: Animation = .default
     
+    private var label: () -> Label
     private var content: () -> Content
     
     /**
@@ -48,7 +46,8 @@ public struct ExpandableText<Content: View>: View {
      - Parameter text: The initial text string to display in the `ExpandableText` view.
      - Returns: A new `ExpandableText` instance with the specified text string and trimming applied.
      */
-    public init(@ViewBuilder content: @escaping () -> Content) {
+    public init(@ViewBuilder label: @escaping () -> Label, @ViewBuilder content: @escaping () -> Content) {
+        self.label = label
         self.content = content
     }
     
@@ -71,16 +70,9 @@ public struct ExpandableText<Content: View>: View {
                     }
             }
             .background {
-                if let font = moreButtonFont {
-                    Text(moreButtonText)
-                        .font(font)
-                        .hidden()
-                        .readSize { moreTextSize = $0 }
-                } else {
-                    Text(moreButtonText)
-                        .hidden()
-                        .readSize { moreTextSize = $0 }
-                }
+                label()
+                    .hidden()
+                    .readSize { moreTextSize = $0 }
             }
             .contentShape(Rectangle())
             .onTapGesture {
@@ -93,14 +85,7 @@ public struct ExpandableText<Content: View>: View {
                     Button {
                         withAnimation(expandAnimation) { isExpanded.toggle() }
                     } label: {
-                        if let font = moreButtonFont {
-                            Text(moreButtonText)
-                                .font(font)
-                                .foregroundColor(moreButtonColor)
-                        } else {
-                            Text(moreButtonText)
-                                .foregroundColor(moreButtonColor)
-                        }
+                        label()
                     }
                 }
             }))
