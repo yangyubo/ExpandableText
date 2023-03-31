@@ -15,17 +15,18 @@ An expandable text view that displays a truncated version of its contents with a
 
 Example usage with default parameters:
  ```swift
-ExpandableText("Lorem ipsum dolor sit amet, consectetur adipiscing elit...")
-    .font(.body)
-    .foregroundColor(.primary)
-    .lineLimit(3)
-    .moreButtonText("more")
-    .moreButtonColor(.accentColor)
-    .expandAnimation(.default)
-    .trimMultipleNewlinesWhenTruncated(true)
+ExpandableText {
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+}
+.font(.body)
+.foregroundColor(.primary)
+.lineLimit(3)
+.moreButtonText("more")
+.moreButtonColor(.accentColor)
+.expandAnimation(.default)
  ```
 */
-public struct ExpandableText: View {
+public struct ExpandableText<Content: View>: View {
 
     @State private var isExpanded: Bool = false
     @State private var isTruncated: Bool = false
@@ -34,40 +35,33 @@ public struct ExpandableText: View {
     @State private var truncatedSize: CGSize = .zero
     @State private var moreTextSize: CGSize = .zero
     
-    private let text: String
     internal var lineLimit: Int = 3
     internal var moreButtonText: String = "more"
+    internal var moreButtonFont: Font?
     internal var moreButtonColor: Color = .accentColor
     internal var expandAnimation: Animation = .default
-    internal var trimMultipleNewlinesWhenTruncated: Bool = true
     
-    private let attributedText: AttributedString?
+    private var content: () -> Content
     
     /**
      Initializes a new `ExpandableText` instance with the specified text string, trimmed of any leading or trailing whitespace and newline characters.
      - Parameter text: The initial text string to display in the `ExpandableText` view.
      - Returns: A new `ExpandableText` instance with the specified text string and trimming applied.
      */
-    public init(_ content: String) {
-        attributedText = nil
-        text = content.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-    
-    public init(_ attributedContent: AttributedString) {
-        attributedText = attributedContent
-        text = String(attributedContent.characters)
+    public init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
     }
     
     public var body: some View {
-        content
+        content()
             .lineLimit(isExpanded ? nil : lineLimit)
             .applyingTruncationMask(size: moreTextSize, enabled: shouldShowMoreButton)
             .readSize { size in
                 truncatedSize = size
                 isTruncated = truncatedSize != intrinsicSize
             }
-            .background(
-                content
+            .background {
+                content()
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
                     .hidden()
@@ -75,12 +69,19 @@ public struct ExpandableText: View {
                         intrinsicSize = size
                         isTruncated = truncatedSize != intrinsicSize
                     }
-            )
-            .background(
-                Text(moreButtonText)
-                    .hidden()
-                    .readSize { moreTextSize = $0 }
-            )
+            }
+            .background {
+                if let font = moreButtonFont {
+                    Text(moreButtonText)
+                        .font(font)
+                        .hidden()
+                        .readSize { moreTextSize = $0 }
+                } else {
+                    Text(moreButtonText)
+                        .hidden()
+                        .readSize { moreTextSize = $0 }
+                }
+            }
             .contentShape(Rectangle())
             .onTapGesture {
                 if shouldShowMoreButton {
@@ -92,27 +93,17 @@ public struct ExpandableText: View {
                     Button {
                         withAnimation(expandAnimation) { isExpanded.toggle() }
                     } label: {
-                        Text(moreButtonText)
-                            .foregroundColor(moreButtonColor)
+                        if let font = moreButtonFont {
+                            Text(moreButtonText)
+                                .font(font)
+                                .foregroundColor(moreButtonColor)
+                        } else {
+                            Text(moreButtonText)
+                                .foregroundColor(moreButtonColor)
+                        }
                     }
                 }
             }))
-    }
-    
-    @ViewBuilder
-    private var content: some View {
-        if let attributedText = attributedText {
-            Text(attributedText)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        } else {
-            let textTrimmingDoubleNewlines = text.replacingOccurrences(of: #"\n\s*\n"#, with: "\n", options: .regularExpression)
-            
-            Text(trimMultipleNewlinesWhenTruncated
-                    ? (shouldShowMoreButton ? textTrimmingDoubleNewlines : text)
-                    : text
-            )
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
     }
 
     private var shouldShowMoreButton: Bool {

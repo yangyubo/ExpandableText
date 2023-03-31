@@ -68,7 +68,6 @@ ExpandableText(loremIpsum)
   .moreButtonFont(.headline.bold())
   .moreButtonColor(.red)
   .expandAnimation(.easeInOut(duration: 2))
-  .trimMultipleNewlinesWhenTruncated(false)
 ```
 </td>
 <td>

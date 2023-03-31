@@ -17,25 +17,34 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                ExpandableText(loremIpsum)
-                    .border(.red)
+                ExpandableText {
+                    Text(loremIpsum)
+                }
+                .border(.red)
                 
-                ExpandableText(try! AttributedString(markdown: loremIpsumMarkdown))
-                    .border(.red)
+                ExpandableText {
+                    Text(try! AttributedString(markdown: loremIpsumMarkdown))
+                }
+                .border(.red)
                 
-                ExpandableText(loremIpsum)
-                    .border(.red)
-                    .environment(\.layoutDirection, .rightToLeft)
+                ExpandableText {
+                    Text(loremIpsum)
+                }
+                .border(.red)
+                .environment(\.layoutDirection, .rightToLeft)
+                .font(.system(.footnote, design: .rounded))
                 
-                ExpandableText(loremIpsum)
-                    .lineLimit(4)
-                    .moreButtonText("read more")
-                    .moreButtonColor(.red)
-                    .expandAnimation(.easeInOut(duration: 2))
-                    .trimMultipleNewlinesWhenTruncated(false)
-                    .border(.red)
-                    .font(.system(.headline, design: .rounded))
-                    .foregroundColor(.secondary)
+                ExpandableText {
+                    Text(loremIpsum)
+                }
+                .lineLimit(4)
+                .moreButtonText("read more")
+                .moreButtonColor(.red)
+                .moreButtonFont(.system(.largeTitle, design: .rounded).bold())
+                .expandAnimation(.easeInOut(duration: 2))
+                .border(.red)
+                .font(.system(.footnote, design: .rounded))
+                .foregroundColor(.secondary)
                 
                 Spacer()
             }
@@ -51,7 +60,9 @@ struct ContentView_Previews: PreviewProvider {
             Section {
                 Text("In section")
             } footer: {
-                ExpandableText(try! AttributedString(markdown: loremIpsumMarkdown))
+                ExpandableText {
+                    Text(try! AttributedString(markdown: loremIpsumMarkdown))
+                }
             }
         }
     }
