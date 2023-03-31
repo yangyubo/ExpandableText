@@ -33,20 +33,26 @@ public struct ExpandableText<Label: View, Content: View>: View {
 
     @State private var intrinsicSize: CGSize = .zero
     @State private var truncatedSize: CGSize = .zero
-    @State private var moreTextSize: CGSize = .zero
+    @State private var moreLabelSize: CGSize = .zero
     
     internal var lineLimit: Int = 3
-    internal var expandAnimation: Animation = .default
     
     private var label: () -> Label
     private var content: () -> Content
+    /**
+     Sets the animation to use when expanding the `ExpandableText` instance.
+     - Parameter animation: The animation to use for the expansion. Defaults to `default`
+     - Returns: A new `ExpandableText` instance with the specified expansion animation applied.
+     */
+    private var expandAnimation: Animation
     
     /**
      Initializes a new `ExpandableText` instance with the specified text string, trimmed of any leading or trailing whitespace and newline characters.
      - Parameter text: The initial text string to display in the `ExpandableText` view.
      - Returns: A new `ExpandableText` instance with the specified text string and trimming applied.
      */
-    public init(@ViewBuilder label: @escaping () -> Label, @ViewBuilder content: @escaping () -> Content) {
+    public init(animation: Animation = .default, @ViewBuilder label: @escaping () -> Label, @ViewBuilder content: @escaping () -> Content) {
+        self.expandAnimation = animation
         self.label = label
         self.content = content
     }
@@ -54,7 +60,7 @@ public struct ExpandableText<Label: View, Content: View>: View {
     public var body: some View {
         content()
             .lineLimit(isExpanded ? nil : lineLimit)
-            .applyingTruncationMask(size: moreTextSize, enabled: shouldShowMoreButton)
+            .applyingTruncationMask(size: moreLabelSize, enabled: shouldShowMoreButton)
             .readSize { size in
                 truncatedSize = size
                 isTruncated = truncatedSize != intrinsicSize
@@ -72,7 +78,7 @@ public struct ExpandableText<Label: View, Content: View>: View {
             .background {
                 label()
                     .hidden()
-                    .readSize { moreTextSize = $0 }
+                    .readSize { moreLabelSize = $0 }
             }
             .contentShape(Rectangle())
             .onTapGesture {

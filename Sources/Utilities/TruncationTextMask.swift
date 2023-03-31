@@ -48,7 +48,9 @@ private struct TruncationTextMask: ViewModifier {
 }
 
 internal extension View {
+    
     func applyingTruncationMask(size: CGSize, enabled: Bool) -> some View {
         modifier(TruncationTextMask(size: size, enabled: enabled))
     }
+    
 }
