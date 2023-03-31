@@ -35,11 +35,8 @@ public struct ExpandableText: View {
     @State private var moreTextSize: CGSize = .zero
     
     private let text: String
-    internal var font: Font = .body
-    internal var color: Color = .primary
     internal var lineLimit: Int = 3
     internal var moreButtonText: String = "more"
-    internal var moreButtonFont: Font?
     internal var moreButtonColor: Color = .accentColor
     internal var expandAnimation: Animation = .default
     internal var trimMultipleNewlinesWhenTruncated: Bool = true
@@ -81,7 +78,6 @@ public struct ExpandableText: View {
             )
             .background(
                 Text(moreButtonText)
-                    .font(moreButtonFont ?? font)
                     .hidden()
                     .readSize { moreTextSize = $0 }
             )
@@ -97,7 +93,6 @@ public struct ExpandableText: View {
                         withAnimation(expandAnimation) { isExpanded.toggle() }
                     } label: {
                         Text(moreButtonText)
-                            .font(moreButtonFont ?? font)
                             .foregroundColor(moreButtonColor)
                     }
                 }
@@ -108,8 +103,6 @@ public struct ExpandableText: View {
     private var content: some View {
         if let attributedText = attributedText {
             Text(attributedText)
-                .font(font)
-                .foregroundColor(color)
                 .frame(maxWidth: .infinity, alignment: .leading)
         } else {
             let textTrimmingDoubleNewlines = text.replacingOccurrences(of: #"\n\s*\n"#, with: "\n", options: .regularExpression)
@@ -118,8 +111,6 @@ public struct ExpandableText: View {
                     ? (shouldShowMoreButton ? textTrimmingDoubleNewlines : text)
                     : text
             )
-            .font(font)
-            .foregroundColor(color)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
     }

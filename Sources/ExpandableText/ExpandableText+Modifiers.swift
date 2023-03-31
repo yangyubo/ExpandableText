@@ -11,28 +11,6 @@ import SwiftUI
 public extension ExpandableText {
     
     /**
-     Sets the font for the text in the `ExpandableText` instance.
-     - Parameter font: The font to use for the text. Defaults to `body`
-     - Returns: A new `ExpandableText` instance with the specified font applied.
-     */
-    func font(_ font: Font) -> Self {
-        var copy = self
-        copy.font = font
-        return copy
-    }
-    
-    /**
-     Sets the foreground color for the text in the `ExpandableText` instance.
-     - Parameter color: The foreground color to use for the text. Defaults to `primary`
-     - Returns: A new `ExpandableText` instance with the specified foreground color applied.
-     */
-    func foregroundColor(_ color: Color) -> Self {
-        var copy = self
-        copy.color = color
-        return copy
-    }
-    
-    /**
      Sets the maximum number of lines to use for rendering the text in the `ExpandableText` instance.
      - Parameter limit: The maximum number of lines to use for rendering the text. Defaults to `3`
      - Returns: A new `ExpandableText` instance with the specified line limit applied.
@@ -51,17 +29,6 @@ public extension ExpandableText {
     func moreButtonText(_ moreText: String) -> Self {
         var copy = self
         copy.moreButtonText = moreText
-        return copy
-    }
-    
-    /**
-     Sets the font to use for the "show more" button in the `ExpandableText` instance.
-     - Parameter font: The font to use for the "show more" button. Defaults to the same font as the text
-     - Returns: A new `ExpandableText` instance with the specified "show more" button font applied.
-     */
-    func moreButtonFont(_ font: Font) -> Self {
-        var copy = self
-        copy.moreButtonFont = font
         return copy
     }
     
@@ -97,4 +64,5 @@ public extension ExpandableText {
         copy.trimMultipleNewlinesWhenTruncated = value
         return copy
     }
+    
 }
